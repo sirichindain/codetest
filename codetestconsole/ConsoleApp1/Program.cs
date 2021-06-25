@@ -17,7 +17,7 @@ namespace ConsoleApp1
             List<PromotionData> promotionList = Promotion.ActivePromotions();
 
             Console.WriteLine("The total cost is: " + CalculateCost(orderDetails, promotionList));
-
+            Console.ReadKey();
 
         }
 
