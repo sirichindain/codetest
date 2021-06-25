@@ -25,21 +25,64 @@ namespace ConsoleApp1
             {
                 PromotionData promo = promotionList.Where(p => p.PromoProduct.ContainsKey(ord.ProductDetails.ProductName)).FirstOrDefault();
 
-                if(promo.PromoProduct.Count > 1)
-                { 
-
-                }
-                else
+                int qunatity = promo.PromoProduct[ord.ProductDetails.ProductName];
+                if (ord.Qunatity > qunatity)
                 {
-                    int qunatity = promo.PromoProduct[ord.ProductDetails.ProductName];
-                    if (ord.Qunatity > qunatity)
+                    if (promo.PromoProduct.Count > 1)
                     {
-                        costOfPurchase += Convert.ToInt32(ord.Qunatity / qunatity) * promo.PromotionPrice + (ord.Qunatity % qunatity) * ord.ProductDetails.Price;
+                        bool applyPromo = false;
+                        List<OrderData> promoLinkedOrder = new List<OrderData>();
+                        foreach (string key in promo.PromoProduct.Keys)
+                        {
+                            OrderData promoLinkedOrderData = orderDetails.Where(o => o.ProductDetails.ProductName == key).FirstOrDefault();
+                            promoLinkedOrder.Add(promoLinkedOrderData);
+                        }
+
+                        bool exit = false;
+                        while (exit == false)
+                        {
+                            foreach (OrderData pOrder in promoLinkedOrder)
+                            {
+                                if (pOrder.Qunatity > promo.PromoProduct[pOrder.ProductDetails.ProductName])
+                                    applyPromo = true;
+                                else
+                                    applyPromo = false;
+                            }
+                            if (applyPromo == true)
+                            {
+                                costOfPurchase += (Convert.ToInt32(promoLinkedOrder.FirstOrDefault().Qunatity / promo.PromoProduct[promoLinkedOrder.FirstOrDefault().ProductDetails.ProductName])) * promo.PromotionPrice;
+                                foreach (OrderData promoOrder in promoLinkedOrder)
+                                {
+                                    promoOrder.Qunatity -= promo.PromoProduct[promoOrder.ProductDetails.ProductName];
+                                }
+                                applyPromo = false;
+                            }
+                            else
+                            {
+                                exit = true;
+                                foreach (OrderData promoOrder in promoLinkedOrder)
+                                {
+                                    costOfPurchase += (promoLinkedOrder.FirstOrDefault().Qunatity % promo.PromoProduct[promoLinkedOrder.FirstOrDefault().ProductDetails.ProductName]) * promo.PromotionPrice;
+                                }
+                            }
+                        }
+
+
+                            //foreach (OrderData promoOrder in promoLinkedOrder)
+                            //{
+                            //    int promoQunatity = promo.PromoProduct[promoOrder.ProductDetails.ProductName];
+                            //    costOfPurchase += Convert.ToInt32(promoOrder.Qunatity / promoQunatity) * promo.PromotionPrice + (promoOrder.Qunatity % promoQunatity) * promoOrder.ProductDetails.Price;
+                            //}
+                        
                     }
                     else
                     {
-                        costOfPurchase += ord.ProductDetails.Price * qunatity;
+                        costOfPurchase += (Convert.ToInt32(ord.Qunatity / qunatity) * promo.PromotionPrice + (ord.Qunatity % qunatity)) * ord.ProductDetails.Price;
                     }
+                }
+                else
+                {
+                    costOfPurchase += ord.ProductDetails.Price * qunatity;
                 }
             }
             
