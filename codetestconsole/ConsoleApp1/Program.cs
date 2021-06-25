@@ -16,11 +16,15 @@ namespace ConsoleApp1
             List<OrderData> orderDetails = orders.TakeOrder();
             List<PromotionData> promotionList = Promotion.ActivePromotions();
 
+            Console.WriteLine("The total cost is: " + CalculateCost(orderDetails, promotionList));
+
+
+        }
+
+        private static int CalculateCost(List<OrderData> orderDetails, List<PromotionData> promotionList)
+        {
             int costOfPurchase = 0;
-            //foreach(PromotionData promo in promotionList)
-            //{
-            //    orderDetails.Where(o => o.ProductDetails.ProductName)
-            //}
+
             foreach (OrderData ord in orderDetails)
             {
                 PromotionData promo = promotionList.Where(p => p.PromoProduct.ContainsKey(ord.ProductDetails.ProductName)).FirstOrDefault();
@@ -30,7 +34,7 @@ namespace ConsoleApp1
                 {
                     if (promo.PromoProduct.Count > 1)
                     {
-                        bool applyPromo = false;
+
                         List<OrderData> promoLinkedOrder = new List<OrderData>();
                         foreach (string key in promo.PromoProduct.Keys)
                         {
@@ -41,6 +45,7 @@ namespace ConsoleApp1
                         bool exit = false;
                         while (exit == false)
                         {
+                            bool applyPromo = false;
                             foreach (OrderData pOrder in promoLinkedOrder)
                             {
                                 if (pOrder.Qunatity > promo.PromoProduct[pOrder.ProductDetails.ProductName])
@@ -66,14 +71,6 @@ namespace ConsoleApp1
                                 }
                             }
                         }
-
-
-                            //foreach (OrderData promoOrder in promoLinkedOrder)
-                            //{
-                            //    int promoQunatity = promo.PromoProduct[promoOrder.ProductDetails.ProductName];
-                            //    costOfPurchase += Convert.ToInt32(promoOrder.Qunatity / promoQunatity) * promo.PromotionPrice + (promoOrder.Qunatity % promoQunatity) * promoOrder.ProductDetails.Price;
-                            //}
-                        
                     }
                     else
                     {
@@ -83,13 +80,10 @@ namespace ConsoleApp1
                 else
                 {
                     costOfPurchase += ord.ProductDetails.Price * qunatity;
-                }
+                }                
             }
-            
-                
-            
+            return costOfPurchase;
         }
-
         
 
         
