@@ -25,5 +25,39 @@ namespace UnitTestProject1
             Console.ReadLine();
 
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            List<ProductData> productList = Product.ListProducts();
+            List<OrderData> OrderDetails = new List<OrderData>();
+
+            OrderData data1 = new OrderData(productList[0], 5);
+            OrderData data2 = new OrderData(productList[1], 5);
+            OrderData data3 = new OrderData(productList[2], 1);
+            OrderData data4 = new OrderData(productList[3], 0);
+            OrderDetails.AddRange(new OrderData[] { data1, data2, data3, data4 });
+            List<PromotionData> promotionList = Promotion.ActivePromotions();
+            Promotion.CalculateCost(OrderDetails, promotionList);
+            Console.ReadLine();
+
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            List<ProductData> productList = Product.ListProducts();
+            List<OrderData> OrderDetails = new List<OrderData>();
+
+            OrderData data1 = new OrderData(productList[0], 3);
+            OrderData data2 = new OrderData(productList[1], 5);
+            OrderData data3 = new OrderData(productList[2], 1);
+            OrderData data4 = new OrderData(productList[3], 1);
+            OrderDetails.AddRange(new OrderData[] { data1, data2, data3, data4 });
+            List<PromotionData> promotionList = Promotion.ActivePromotions();
+            Promotion.CalculateCost(OrderDetails, promotionList);
+            Console.ReadLine();
+
+        }
     }
 }
