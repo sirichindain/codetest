@@ -36,7 +36,6 @@ namespace ConsoleApp1
                 {
                     if (promo.PromoProduct.Count > 1)
                     {
-
                         List<OrderData> promoLinkedOrder = new List<OrderData>();
                         foreach (string key in promo.PromoProduct.Keys)
                         {
@@ -61,7 +60,7 @@ namespace ConsoleApp1
                             }
                             if (applyPromo == true)
                             {
-                                costOfPurchase += (Convert.ToInt32(promoLinkedOrder.FirstOrDefault().Qunatity / promo.PromoProduct[promoLinkedOrder.FirstOrDefault().ProductDetails.ProductName])) * promo.PromotionPrice;
+                                costOfPurchase += promo.PromotionPrice;
                                 foreach (OrderData promoOrder in promoLinkedOrder)
                                 {
                                     promoOrder.Qunatity -= promo.PromoProduct[promoOrder.ProductDetails.ProductName];
@@ -77,6 +76,9 @@ namespace ConsoleApp1
                                 foreach (OrderData promoOrder in promoLinkedOrder)
                                 {
                                     costOfPurchase += promoOrder.Qunatity * promoOrder.ProductDetails.Price;
+                                    OrderData originalData = orderDetails.Where(o => o.ProductDetails.ProductName == promoOrder.ProductDetails.ProductName).FirstOrDefault();
+                                    int index = orderDetails.IndexOf(originalData);
+                                    orderDetails[index].Qunatity = 0;
                                 }
                             }
                         }
@@ -88,7 +90,7 @@ namespace ConsoleApp1
                 }
                 else
                 {
-                    costOfPurchase += (ord.ProductDetails.Price * qunatity);
+                    costOfPurchase += (ord.ProductDetails.Price * ord.Qunatity);
                 }                
             }
             return costOfPurchase;
