@@ -27,10 +27,12 @@ namespace ConsoleApp1
 
             foreach (OrderData ord in orderDetails)
             {
+                if (ord.Qunatity == 0)
+                    break;
                 PromotionData promo = promotionList.Where(p => p.PromoProduct.ContainsKey(ord.ProductDetails.ProductName)).FirstOrDefault();
 
                 int qunatity = promo.PromoProduct[ord.ProductDetails.ProductName];
-                if (ord.Qunatity > qunatity)
+                if (ord.Qunatity >= qunatity)
                 {
                     if (promo.PromoProduct.Count > 1)
                     {
@@ -48,10 +50,14 @@ namespace ConsoleApp1
                             bool applyPromo = false;
                             foreach (OrderData pOrder in promoLinkedOrder)
                             {
-                                if (pOrder.Qunatity > promo.PromoProduct[pOrder.ProductDetails.ProductName])
+                                if (pOrder.Qunatity >= promo.PromoProduct[pOrder.ProductDetails.ProductName])
                                     applyPromo = true;
                                 else
+                                {
                                     applyPromo = false;
+                                    break;
+                                }
+                                
                             }
                             if (applyPromo == true)
                             {
@@ -59,6 +65,9 @@ namespace ConsoleApp1
                                 foreach (OrderData promoOrder in promoLinkedOrder)
                                 {
                                     promoOrder.Qunatity -= promo.PromoProduct[promoOrder.ProductDetails.ProductName];
+                                    OrderData originalData = orderDetails.Where(o => o.ProductDetails.ProductName == promoOrder.ProductDetails.ProductName).FirstOrDefault();
+                                    int index = orderDetails.IndexOf(originalData);
+                                    orderDetails[index].Qunatity = promoOrder.Qunatity;
                                 }
                                 applyPromo = false;
                             }
@@ -67,19 +76,19 @@ namespace ConsoleApp1
                                 exit = true;
                                 foreach (OrderData promoOrder in promoLinkedOrder)
                                 {
-                                    costOfPurchase += (promoLinkedOrder.FirstOrDefault().Qunatity % promo.PromoProduct[promoLinkedOrder.FirstOrDefault().ProductDetails.ProductName]) * promo.PromotionPrice;
+                                    costOfPurchase += promoOrder.Qunatity * promoOrder.ProductDetails.Price;
                                 }
                             }
                         }
                     }
                     else
                     {
-                        costOfPurchase += (Convert.ToInt32(ord.Qunatity / qunatity) * promo.PromotionPrice + (ord.Qunatity % qunatity)) * ord.ProductDetails.Price;
+                        costOfPurchase += ((Convert.ToInt32(ord.Qunatity / qunatity) * promo.PromotionPrice) + (ord.Qunatity % qunatity) * ord.ProductDetails.Price);
                     }
                 }
                 else
                 {
-                    costOfPurchase += ord.ProductDetails.Price * qunatity;
+                    costOfPurchase += (ord.ProductDetails.Price * qunatity);
                 }                
             }
             return costOfPurchase;
