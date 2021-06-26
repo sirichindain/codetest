@@ -16,14 +16,11 @@ namespace ConsoleApp1
             List<OrderData> orderDetails = orders.TakeOrder();
             List<PromotionData> promotionList = Promotion.ActivePromotions();
 
-            Console.WriteLine("The total cost is: " + Promotion.CalculateCost(orderDetails, promotionList));
+            Console.WriteLine("The total cost is: " + Calculator.CalculateCost(orderDetails, promotionList));
             Console.ReadKey();
 
-        }
+            //Note: Please note my laptop was extremely slow. Hence i had to take multiple breaks.
 
-        
-        
-
-        
+        }        
     }
 }

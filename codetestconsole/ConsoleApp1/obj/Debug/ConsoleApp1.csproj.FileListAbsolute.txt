@@ -4,4 +4,3 @@ C:\Users\Abhijna\source\repos\codetest\codetestconsole\ConsoleApp1\bin\Debug\Con
 C:\Users\Abhijna\source\repos\codetest\codetestconsole\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.CoreCompileInputs.cache
 C:\Users\Abhijna\source\repos\codetest\codetestconsole\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 C:\Users\Abhijna\source\repos\codetest\codetestconsole\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
-C:\Users\Abhijna\source\repos\codetest\codetestconsole\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.AssemblyReference.cache

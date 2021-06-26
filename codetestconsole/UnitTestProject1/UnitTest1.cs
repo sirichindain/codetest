@@ -21,7 +21,7 @@ namespace UnitTestProject1
             OrderData data4 = new OrderData(productList[3], 0);
             OrderDetails.AddRange(new OrderData[] { data1, data2, data3, data4 });
             List<PromotionData> promotionList = Promotion.ActivePromotions();
-            int cost = Promotion.CalculateCost(OrderDetails, promotionList);
+            int cost = Calculator.CalculateCost(OrderDetails, promotionList);
 
         }
 
@@ -37,7 +37,7 @@ namespace UnitTestProject1
             OrderData data4 = new OrderData(productList[3], 0);
             OrderDetails.AddRange(new OrderData[] { data1, data2, data3, data4 });
             List<PromotionData> promotionList = Promotion.ActivePromotions();
-            int cost = Promotion.CalculateCost(OrderDetails, promotionList);
+            int cost = Calculator.CalculateCost(OrderDetails, promotionList);
 
         }
 
@@ -53,7 +53,7 @@ namespace UnitTestProject1
             OrderData data4 = new OrderData(productList[3], 1);
             OrderDetails.AddRange(new OrderData[] { data1, data2, data3, data4 });
             List<PromotionData> promotionList = Promotion.ActivePromotions();
-            int cost = Promotion.CalculateCost(OrderDetails, promotionList);
+            int cost = Calculator.CalculateCost(OrderDetails, promotionList);
 
         }
     }
